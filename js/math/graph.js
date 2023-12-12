@@ -4,6 +4,26 @@ class Graph {
     this.segments = segments;
   }
 
+  addPoint(point) {
+    this.points.push(point);
+  }
+
+  containsPoint(point) {
+    return this.points.find((p) => p.equal(point));
+  }
+
+  tryAddPoint(point) {
+    if (!this.containsPoint(point)) {
+      this.addPoint(point);
+      return true;
+    }
+    return false;
+  }
+
+  addSegment(seg) {
+    this.segments.push(seg);
+  }
+
   draw(ctx) {
     for (const seg of this.segments) {
       seg.draw(ctx);

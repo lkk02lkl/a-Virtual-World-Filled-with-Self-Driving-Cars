@@ -9,11 +9,41 @@
 <body>
   <h1>World Editor</h1>
   <canvas id="myCanvas"></canvas>
+  <div id="controls">
+    <button onclick="addPandomPoint()">Add Point</button>
+    <button onclick="addPandomSegment()">Add Segment</button>
+  </div>
   
   <script src="js/math/graph.js"></script>
   <script src="js/primitives/point.js"></script>
   <script src="js/primitives/segment.js"></script>
   <script>
+
+    function addPandomSegment() {
+      const index1 = Math.floor(Math.random() * graph.points.length);
+      const index2 = Math.floor(Math.random() * graph.points.length);
+      graph.addSegment(
+        new Segment(graph.points[index1], graph.points[index2])
+      );
+
+      ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+      graph.draw(ctx);
+    }
+
+    function addPandomPoint() {
+      const success = graph.tryAddPoint(
+        new Point(
+          Math.random() * myCanvas.width,
+          Math.random() * myCanvas.height
+        )
+      );
+
+      ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+      graph.draw(ctx);
+    }
+
+
+
     myCanvas.width = 600;
     myCanvas.height = 600;
 
