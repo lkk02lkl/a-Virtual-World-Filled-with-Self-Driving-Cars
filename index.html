@@ -12,6 +12,8 @@
   <div id="controls">
     <button onclick="addPandomPoint()">Add Point</button>
     <button onclick="addPandomSegment()">Add Segment</button>
+    <button onclick="removePandomSegment()">Remove Segment</button>
+    <button onclick="removePandomPoint()">Remove Point</button>
   </div>
   
   <script src="js/math/graph.js"></script>
@@ -19,10 +21,37 @@
   <script src="js/primitives/segment.js"></script>
   <script>
 
+
+
+
+
+    function removePandomPoint() {
+      if (graph.points.length == 0) {
+        return;
+      }
+      const index = Math.floor(Math.random() * graph.points.length);
+      graph.removePoint(graph.points[index]);
+      ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+      graph.draw(ctx);
+    }
+
+    function removePandomSegment() {
+      if (graph.segments.length == 0) {
+        return;
+      }
+      const index = Math.floor(Math.random() * graph.segments.length);
+      graph.removeSegment(graph.segments[index]);
+      ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+      graph.draw(ctx);
+    }
+
+
+
     function addPandomSegment() {
       const index1 = Math.floor(Math.random() * graph.points.length);
       const index2 = Math.floor(Math.random() * graph.points.length);
-      graph.addSegment(
+
+      const success = graph.tryAddSegment(
         new Segment(graph.points[index1], graph.points[index2])
       );
 
