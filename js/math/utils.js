@@ -26,3 +26,23 @@ function subtract(p1, p2) {
 function scale(p, scaler) {
   return new Point(p.x * scaler, p.y * scaler);
 }
+
+function translate(loc, angel, offset) {
+  return new Point(
+    loc.x + Math.cos(angel) * offset,
+    loc.y + Math.sin(angel) * offset
+  );
+}
+
+function angle(p) {
+  return Math.atan2(p.y, p.x);
+}
+
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+function getRandomColor() {
+  const hue = 290 + Math.random() * 260;
+  return "hsl(" + hue + ", 100%, 60%)";
+}
