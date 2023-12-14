@@ -1,5 +1,5 @@
 class Envelope {
-  constructor(skeleton, width, roundness = 1 ) {
+  constructor(skeleton, width, roundness = 1) {
     this.skeleton = skeleton;
     this.poly = this.#generatePolygon(width, roundness);
   }
@@ -18,7 +18,6 @@ class Envelope {
     for (let i = alpha_ccw; i <= alpha_cw + eps; i += step) {
       points.push(translate(p1, i, radius));
     }
-
     for (let i = alpha_ccw; i <= alpha_cw + eps; i += step) {
       points.push(translate(p2, Math.PI + i, radius));
     }
@@ -26,8 +25,7 @@ class Envelope {
     return new Polygon(points);
   }
 
-  draw(ctx) {
-    this.poly.draw(ctx);
-    this.poly.drawSegments(ctx);
+  draw(ctx, options) {
+    this.poly.draw(ctx, options);
   }
 }
