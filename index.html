@@ -13,17 +13,11 @@
     <button onclick="save()">✅</button>
     <button onclick="dispose()">⛔️</button>
     
-
-
-   <!--  <button onclick="addPandomPoint()">Add Point</button>
-    <button onclick="addPandomSegment()">Add Segment</button>
-    <button onclick="removePandomSegment()">Remove Segment</button>
-    <button onclick="removePandomPoint()">Remove Point</button>
-    <button onclick="removeAll()">Remove All</button> -->
   </div>
   
   <script src="js/world.js"></script>
   <script src="js/viewport.js"></script>
+  <script src="js/items/tree.js"></script>
   <script src="js/graphEditor.js"></script>
   <script src="js/math/utils.js"></script>
   <script src="js/math/graph.js"></script>
@@ -34,56 +28,7 @@
   <script>
 
 
-   /*  function removeAll() {
-      graph.dispose();
-      ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-      graph.draw(ctx);
-    }
-
-    function removePandomPoint() {
-      if (graph.points.length == 0) {
-        return;
-      }
-      const index = Math.floor(Math.random() * graph.points.length);
-      graph.removePoint(graph.points[index]);
-      ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-      graph.draw(ctx);
-    }
-
-    function removePandomSegment() {
-      if (graph.segments.length == 0) {
-        return;
-      }
-      const index = Math.floor(Math.random() * graph.segments.length);
-      graph.removeSegment(graph.segments[index]);
-      ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-      graph.draw(ctx);
-    }
-
-    function addPandomSegment() {
-      const index1 = Math.floor(Math.random() * graph.points.length);
-      const index2 = Math.floor(Math.random() * graph.points.length);
-
-      const success = graph.tryAddSegment(
-        new Segment(graph.points[index1], graph.points[index2])
-      );
-
-      ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-      graph.draw(ctx);
-    }
-
-    function addPandomPoint() {
-      const success = graph.tryAddPoint(
-        new Point(
-          Math.random() * myCanvas.width,
-          Math.random() * myCanvas.height
-        )
-      );
-
-      ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-      graph.draw(ctx);
-    }
- */
+   
 
 
     myCanvas.width = 600;
@@ -111,7 +56,8 @@
         world.generate();
         oldGraphHash = graph.hash();
       }
-      world.draw(ctx);
+      const viewPoint = scale(viewport.getOffset(), -1);
+      world.draw(ctx, viewPoint);
       ctx.globalAlpha = 0.3;
       graphEditor.display();
       requestAnimationFrame(animate);
