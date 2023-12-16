@@ -20,6 +20,7 @@ class GraphEditor {
   disable() {
     this.#removeEventListeners();
     this.selected = false;
+    this.hovered = false;
   }
 
   #addEventListeners() {
