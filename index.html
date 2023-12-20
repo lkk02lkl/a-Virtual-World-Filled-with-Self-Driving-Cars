@@ -14,9 +14,13 @@
     <button onclick="dispose()">⛔️</button>
     &nbsp;
     <button id="graphBtn" onclick="setMode('graph')">🌐</button>
-    <button id="stopBtn" onclick="setMode('stop')">🚫</button>
-    <button id="crossingBtn" onclick="setMode('crossing')">🚶‍♀️</button>
-    <button id="startBtn" onclick="setMode('start')">🚘</button>
+    <button id="stopBtn" onclick="setMode('stop')">🛑</button>
+    <button id="yieldBtn" onclick="setMode('yield')">⚠️</button>
+    <button id="crossingBtn" onclick="setMode('crossing')">🚶</button>
+    <button id="parkingBtn" onclick="setMode('parking')">🅿️</button>
+    <button id="lightBtn" onclick="setMode('light')">🚦</button>
+    <button id="startBtn" onclick="setMode('start')">🚙</button>
+    <button id="targetBtn" onclick="setMode('target')">🎯</button>
     
   </div>
   
@@ -27,12 +31,20 @@
   <script src="js/markings/stop.js"></script>
   <script src="js/markings/start.js"></script>
   <script src="js/markings/crossing.js"></script>
+  <script src="js/markings/parking.js"></script>
+  <script src="js/markings/light.js"></script>
+  <script src="js/markings/target.js"></script>
+  <script src="js/markings/yield.js"></script>
 
   <script src="js/editors/markingEditor.js"></script>
   <script src="js/editors/graphEditor.js"></script>
   <script src="js/editors/crossingEditor.js"></script>
   <script src="js/editors/stopEditor.js"></script>
   <script src="js/editors/startEditor.js"></script>
+  <script src="js/editors/parkingEditor.js"></script>
+  <script src="js/editors/lightEditor.js"></script>
+  <script src="js/editors/targetEditor.js"></script>
+  <script src="js/editors/yieldEditor.js"></script>
 
   <script src="js/items/tree.js"></script>
   <script src="js/items/building.js"></script>
@@ -66,7 +78,11 @@
       graph: { button: graphBtn, editor: new GraphEditor(viewport, graph) },
       stop: { button: stopBtn, editor: new StopEditor(viewport, world) },
       crossing: { button: crossingBtn, editor: new CrossingEditor(viewport, world) },
-      start: { button: startBtn, editor: new StartEditor(viewport, world) }
+      start: { button: startBtn, editor: new StartEditor(viewport, world) },
+      parking: { button: parkingBtn, editor: new ParkingEditor(viewport, world) },
+      light: { button: lightBtn, editor: new LightEditor(viewport, world) },
+      target: { button: targetBtn, editor: new TargetEditor(viewport, world) },
+      yield: { button: yieldBtn, editor: new YieldEditor(viewport, world) }
     };
     
 
@@ -77,7 +93,7 @@
 
     animate();
 
-    function animate() {
+  function animate() {
       viewport.reset();
       if (graph.hash() != oldGraphHash) {
         world.generate();
@@ -98,8 +114,44 @@
     }
 
     function save() {
-      localStorage.setItem("graph", JSON.stringify(graph));
+      world.zoom = viewport.zoom;
+      world.offset = viewport.offset;
+
+      const element = document.createElement("a");
+      element.setAttribute(
+        "href",
+        "data:application/json;charset=utf-8," +
+        encodeURIComponent(JSON.stringify(world))
+      );
+
+      const fileName = "name.world";
+      element.setAttribute("download", fileName);
+
+      element.click();
+
+      localStorage.setItem("world", JSON.stringify(world));
     }
+
+    function load(event) {
+      const file = event.target.files[0];
+
+      if (!file) {
+        alert("No file selected.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.readAsText(file);
+
+      reader.onload = (evt) => {
+        const fileContent = evt.target.result;
+        const jsonData = JSON.parse(fileContent);
+        world = World.load(jsonData);
+        localStorage.setItem("world", JSON.stringify(world));
+        location.reload();
+      }
+    }
+
     
     function setMode(mode) {
       dissableEditors();
