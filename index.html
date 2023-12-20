@@ -10,8 +10,12 @@
   <h1>World Editor</h1>
   <canvas id="myCanvas"></canvas>
   <div id="controls">
-    <button onclick="save()">✅</button>
-    <button onclick="dispose()">⛔️</button>
+    <button onclick="dispose()">🗑️</button>
+    <button onclick="save()">💾</button>
+    <label for="fileInput" class="file-input-label">
+      📁
+      <input type="file" id="fileInput" accept=".world" onchange="load(event)" />
+    </label>
     &nbsp;
     <button id="graphBtn" onclick="setMode('graph')">🌐</button>
     <button id="stopBtn" onclick="setMode('stop')">🛑</button>
@@ -93,7 +97,7 @@
 
     animate();
 
-  function animate() {
+    function animate() {
       viewport.reset();
       if (graph.hash() != oldGraphHash) {
         world.generate();
